@@ -53,11 +53,14 @@ def bubblesort_no_loop(arr):
 
         a, b = res[0], res[1]
         remain = res[2:]
+        sum = []
 
         if a > b:
-            return [b] + recursive([a] + remain)
+            sum = [b] + recursive([a] + remain)
         else:
-            return [a] + recursive([b] + remain)
+            sum = [a] + recursive([b] + remain)
+
+        return recursive(sum[:-1]) + sum[-1:]
     return recursive(res)
 
         
