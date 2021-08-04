@@ -43,14 +43,19 @@ def optimized_selectionsort(arr):
     i = 0
     j = len(res) - 1
     while(i < j):
-        min_index, max_index = i, i
-        for k in range(i + 1, j):
-            if res[k] > res[max_index]:
+        minimum, maximum, min_index, max_index = res[i], res[i], i, i
+        for k in range(i, j + 1):
+            if res[k] > maximum:
+                maximum = res[k]
                 max_index = k
-            if res[k] < res[min_index]:
+            if res[k] < minimum:
+                minimum = res[k]
                 min_index = k
-        arr[i], arr[min_index] = arr[min_index], arr[i]
-        arr[j], arr[max_index] = arr[max_index], arr[j]
+        res[i], res[min_index] = res[min_index], res[i]
+        if res[min_index] == maximum:
+            res[j], res[min_index] = res[min_index], res[j]
+        else:
+            res[j], res[max_index] = res[max_index], res[j]
         i += 1
         j -= 1
     return res
