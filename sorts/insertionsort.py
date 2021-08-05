@@ -21,7 +21,7 @@ def insertionsort(arr):
         res[j + 1] = val
     return res
 
-def recursive_insertionssort(arr):
+def recursive_insertionsort(arr):
     res = arr.copy()
     def recursive(res, index):
         if index <= 1:
@@ -33,23 +33,24 @@ def recursive_insertionssort(arr):
             res[j + 1] = res[j]
             j -= 1
         res[j + 1] = val
+        return res
     return recursive(res, len(res))
 
 #Insertion sort to sort even and odd positioned elements in different orders
 #Input : [5, 8, 4, 3, 9, 2, 7, 9, 1]
-#Output : [1, 8, 4, 6, 5, 2, 7, 3, 9]
+#Output : [9, 2, 7, 3, 5, 6, 4, 8, 1]
 def insertionsort_even_odd(arr):
     res = arr.copy()
     for i in range(2, len(res)):
         j = i - 2
         val = res[i]
         if j % 2 == 0:
-            while j >= 0 and res[j] > val:
+            while j >= 0 and res[j] < val:
                 res[j + 2] = res[j]
                 j -= 2
             res[j + 2] = val
         else:
-            while j >= 0 and res[j] < val:
+            while j >= 0 and res[j] > val:
                 res[j + 2] = res[j]
                 j -= 2
             res[j + 2] = val
