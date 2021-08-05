@@ -1,5 +1,10 @@
 import unittest
-import sorts.selectionsort
+from sorts.selection import (
+    selectionsort,
+    stable_selectionsort,
+    optimized_selectionsort, 
+    recursive_selectionsort
+)
 import random
 
 
@@ -9,19 +14,19 @@ class TestSelection(unittest.TestCase):
         self.sample_list = random.sample(range(1000), 10)
 
     def test_selectionsort(self):
-        result = sorts.selectionsort.selectionsort(self.sample_list)
+        result = selectionsort(self.sample_list)
         self.assertListEqual(result, sorted(self.sample_list))
 
     def test_recursive_selectionsort(self):
-        result = sorts.selectionsort.recursive_selectionsort(self.sample_list)
+        result = recursive_selectionsort(self.sample_list)
         self.assertListEqual(result, sorted(self.sample_list))
     
     def test_optimized_selectionsort(self):
-        result = sorts.selectionsort.optimized_selectionsort(self.sample_list)
+        result = optimized_selectionsort(self.sample_list)
         self.assertListEqual(result, sorted(self.sample_list))
 
     def test_stable_selectionsort(self):
-        result = sorts.selectionsort.stable_selectionsort(self.sample_list)
+        result = stable_selectionsort(self.sample_list)
         self.assertListEqual(result, sorted(self.sample_list))
 
 
