@@ -53,25 +53,24 @@ def inplace_mergesort(arr):
 
         while left_index <= middle and right_index <= finish:
             if arr[left_index] % max_val <= arr[right_index] % max_val:
-                arr[arr_index] = arr[arr_index] + (arr[left_index] % max_val) * max_val
-                arr_index += 1
+                arr[arr_index] +=(arr[left_index] % max_val) * max_val
                 left_index +=1
             else :
-                arr[arr_index] = arr[arr_index] + (arr[right_index] % max_val) * max_val
-                arr_index += 1
+                arr[arr_index] += (arr[right_index] % max_val) * max_val
                 right_index +=1
+            arr_index += 1
         
         while left_index <= middle:
-            arr[arr_index] = arr[arr_index] + (arr[left_index] % max_val) * max_val
+            arr[arr_index] += (arr[left_index] % max_val) * max_val
             arr_index += 1
             left_index += 1
         
         while right_index <= finish:
-            arr[arr_index] = arr[arr_index] + (arr[right_index] % max_val) * max_val
+            arr[arr_index] += (arr[right_index] % max_val) * max_val
             arr_index += 1
             right_index += 1
         
-        for i in range(start, finish - 1):
+        for i in range(start, finish + 1):
             arr[i] = arr[i] // max_val
         return arr
             
@@ -88,13 +87,13 @@ def inplace_mergesort(arr):
 def inplace_shifiting_mergesort(arr):
     res = arr.copy()
     def merge(arr, start, middle, finish):
-        left_index, right_index, arr_index = start, middle + 1, start
+        left_index, right_index = start, middle + 1
 
         if arr[middle] <= arr[right_index]:
             return arr
 
         while left_index <= middle and right_index <= finish:
-            if arr[left_index] <= [right_index]:
+            if arr[left_index] <= arr[right_index]:
                 left_index +=1
             else :
                 val = arr[right_index]
@@ -106,17 +105,19 @@ def inplace_shifiting_mergesort(arr):
                 arr[left_index] = val
                 left_index += 1
                 right_index += 1
-                arr_index += 1        
+                middle += 1        
        
         return arr
             
     def recursive(arr, start, finish):
         if start < finish :
             middle = (start + finish) // 2
+            # middle = start + (finish - start) // 2
             recursive(arr, start, middle)
             recursive(arr, middle + 1, finish)
             merge(arr, start, middle, finish)
             return arr
+
     return recursive(res, 0, len(res) - 1)
 
 #TODO: Linked lists.
