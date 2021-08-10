@@ -50,8 +50,8 @@ def dual_pivot_partition(arr, low, high):
         arr[low], arr[high] = arr[high], arr[low]
     
     left_pivot, right_pivot = arr[low], arr[high]
-    left_index = arr_index = low
-    right_index = high
+    left_index = arr_index = low + 1
+    right_index = high - 1
 
     while arr_index <= right_index:
         if arr[arr_index] < left_pivot:
@@ -66,7 +66,8 @@ def dual_pivot_partition(arr, low, high):
                 arr[left_index], arr[arr_index] = arr[arr_index], arr[left_index]
                 left_index += 1
         arr_index += 1
-    left_pivot -= 1
+
+    left_index -= 1
     right_index += 1
     arr[low], arr[left_index] = arr[left_index], arr[low]
     arr[high], arr[right_index] = arr[right_index], arr[high]
@@ -148,7 +149,7 @@ def dual_pivot_quicksort(arr):
     def recursive(arr, low, high):
         if low < high:
             left_pivot, right_pivot = dual_pivot_partition(arr, low, high)
-            recursive(arr, 0, left_pivot - 1)
+            recursive(arr, low, left_pivot - 1)
             recursive(arr, left_pivot + 1, right_pivot - 1)
             recursive(arr, right_pivot + 1, high)
             return arr
