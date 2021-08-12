@@ -10,6 +10,9 @@
 """
 
 
+from sorts.insertion import insertionsort
+
+
 def shellsort(arr):
     res = arr.copy()
     gap = len(res) // 2
@@ -23,14 +26,8 @@ def shellsort(arr):
                 res[left], res[right] = res[right], res[left]
             right += 1
             left += 1
-
-            back = left
-            while back - gap >= 0:
-                if res[back - gap] > res[back]:
-                    res[back - gap], res[back] = res[back], res[back - gap]
-                back -= 1
             
-            gap //= 2
+        gap //= 2
     
-    return res
+    return insertionsort(res)
 
