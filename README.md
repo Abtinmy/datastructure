@@ -7,3 +7,4 @@ Implemention of various data structures and sort algorithms using Python.
 * [Merge Sort](../main/sorts/merge.py) + (inplace)
 * [Quick Sort](../main/sorts/quick.py) + (hoare, lomuto, random, dual pivot, optimized, stable)
 * [Shell Sort](../main/sorts/shell.py)
+* [Counting Sort](../main/sorts/counting.py) + (character based, negative numbers)
