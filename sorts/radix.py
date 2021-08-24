@@ -20,15 +20,15 @@ def countingsort(arr, dig):
 
     for num in arr:
         index = num / dig
-        count[index % 10] += 1
+        count[int(index % 10)] += 1
 
     for i in range(1, 10):
         count[i] += count[i - 1]
 
     for i in range(len(arr) - 1, -1, -1):
         index = arr[i] / dig
-        out[count[index % 10] - 1] = arr[i]
-        count[index % 10] -= 1
+        out[count[int(index % 10)] - 1] = arr[i]
+        count[int(index % 10)] -= 1
 
     for i in range(len(arr)):
         arr[i] = out[i]
@@ -42,34 +42,42 @@ def radixsort(arr):
         countingsort(res, dig)
         dig *= 10
 
+    return res
+
+def nth_digit(number, digit, max_dig):
+    str_num = str(number)
+    return int(str_num[len(str_num) - max_dig + digit]) if max_dig <= len(str_num) + digit else 0
+
+#most significant digit
 def msd_radixsort(arr):
     res = arr.copy()
+    max_dig = len(str(max(res)))
     def recursion(arr, low, high, dig):
         if high <= low:
             return
 
         out = [0] * len(arr)
-        count = [0] * 10 
+        count = [0] * 11 # one extra for number 1 digit
 
-        for num in arr:
-            index = int(str(num)[dig])
-            count[index] += 1
+        for i in range(low, high + 1):
+            index = nth_digit(arr[i], dig, max_dig)
+            count[int(index)] += 1
 
-        for i in range(1, 10):
+        for i in range(1, 11):
             count[i] += count[i - 1]
 
-        for i in range(len(arr) - 1, -1, -1):
-            index = int(str(num)[dig])
-            out[count[index] - 1] = arr[i]
-            count[index] -= 1
+        for i in range(low, high + 1):
+            index = nth_digit(arr[i], dig, max_dig)
+            out[count[int(index)] - 1] = arr[i]
+            count[int(index)] -= 1
 
-        for i in range(len(arr)):
-            arr[i] = out[i]
+        for i in range(low, high + 1):
+            arr[i] = out[i - low]
 
-        for i in range(9):
-            recursion(res, low + count[i], low + count[i + 1] - 1, dig + 1)
-        return res
+        for i in range(10):
+            recursion(arr, low + count[i], low + count[i + 1] - 1, dig + 1)
+        return arr
     return recursion(res, 0, len(res) - 1, 0)
 
 
-#TODO: inplace, trie
+#TODO: inplace, trie, linked list
