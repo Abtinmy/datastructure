@@ -23,16 +23,12 @@ class LinkedList:
             self.__tail = prev
             self.__size = len(list)
 
-    def __repr__(self):
-        res = []
-        node = self.__head
-        while node:
-            res.append(node.data)
-            node = node.next
-        return res
-
     def __len__(self):
         return self.__size
+
+    @property
+    def head(self):
+        return self.__head
 
     #Add a node at the front
     def push(self, data):
@@ -47,6 +43,9 @@ class LinkedList:
         if node is None:
             raise RuntimeError("Given node is not defined")
 
+        if not node in self:
+            raise RuntimeError("Give node is not in the Linked List")
+            
         new_node = Node(data)
         new_node.next = node.next
         if node.next is None:
@@ -55,7 +54,7 @@ class LinkedList:
         self.__size += 1
 
     def insert_index(self, pos, data):
-        node = self.find_index(pos)
+        node = self.find_index(pos - 1)
         new_node = Node(data)
         new_node.next = node.next
         if node.next is None:
@@ -98,10 +97,6 @@ class LinkedList:
         if self.__tail is None:
             return None
         return self.__tail.data
-
-    def peek_index(self, pos):
-        node = self.find_index(pos)
-        return node.data
 
     def remove_first(self):
         if self.__head is None:
@@ -158,26 +153,43 @@ class LinkedList:
         if pos == self.__size - 1:
             return self.remove_last()
        
-        node = self.find_index(pos)
-
+        node = self.find_index(pos - 1)
+        
+        self.__size -= 1
         data = node.next.data
         node.next = node.next.next
         return data
 
-    def find(self, key):
+    def find(self, key, index=False):
         node = self.__head
+        counter = 0
         while node is not None and node.data != key:
             node = node.next
+            counter += 1
+
+        if node is None:
+            counter = None
+
+        if index:
+            return counter, node
         return node
 
     def find_index(self, pos):
-        if pos >= self.__size:
+        if pos >= self.__size or pos < 0:
             raise ValueError("Given index out of range")
 
         node = self.__head
         for i in range(pos):
             node = node.next
         return node
+
+    def __contains__(self, another_node):
+        node = self.__head
+        while node:
+            if node == another_node:
+                return True
+            node = node.next
+        return False
 
     def distance(self, start, end):
         res = 1
@@ -193,7 +205,7 @@ class LinkedList:
     #It can be implemented also using the size variable
     #Floyd slow and fast pointers approach
     #returns number of nodes in a loop if has one else return None
-    def has_loop(self):
+    def has_loop(self, boolean=True):
         if self.__head is None:
             return False
 
@@ -203,8 +215,13 @@ class LinkedList:
             slow = slow.next
             fast = fast.next.next
             if slow == fast:
-                return self.distance(slow, fast)
-        return None
+                if boolean:
+                    return True
+                return True, self.distance(slow, fast)
+
+        if boolean:
+            return False
+        return False, None
 
     def reverse(self):
         prev = None
@@ -232,13 +249,13 @@ class LinkedList:
 class LinkedListIterator:
     def __init__(self, linkedlist):
         self._linkedlist = linkedlist
-        self._index = linkedlist.peek()
+        self._index = linkedlist.head
 
     def __next__(self):
         if self._index is None:
             raise StopIteration
         
-        data = self._index
+        data = self._index.data
         self._index = self._index.next
         return data
 
