@@ -54,12 +54,18 @@ class LinkedList:
         self.__size += 1
 
     def insert_index(self, pos, data):
-        node = self.find_index(pos - 1)
         new_node = Node(data)
-        new_node.next = node.next
-        if node.next is None:
-            self.__tail = new_node
-        node.next = new_node
+        if pos == 0:
+            new_node.next = self.__head
+            self.__head = new_node
+            self.__size += 1
+        else:
+            node = self.find_index(pos - 1)
+            new_node.next = node.next
+            if node.next is None:
+                self.__tail = new_node
+            node.next = new_node
+            self.__size += 1
 
     #Add a node at the end
     def append(self, data):
@@ -124,7 +130,7 @@ class LinkedList:
         while node.next != self.__tail:
             node = node.next
         node.next = None
-        self.__tail = node.next
+        self.__tail = node
 
         self.__size -= 1
         return data
